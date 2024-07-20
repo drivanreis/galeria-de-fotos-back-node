@@ -1,24 +1,33 @@
-# ../docker-compose.yml
-
 version: '3.9'
 
 services:
   backend:
     container_name: app_backend
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     image: image-app_backend
     ports:
-      - "3001:3001"
-    working_dir: /app
+      - "2500:2500"
     environment:
-      - ALLOWED_ORIGIN=https://808a-189-71-214-150.ngrok-free.app
+      - ALLOWED_ORIGIN=https://drivanreis.github.io/galeria-de-fotos-frontend/
+      - BACK_PORT=2500
       - CLOUDINARY_CLOUD_NAME=dxdaxszow
       - CLOUDINARY_API_KEY=223998542144664
       - CLOUDINARY_API_SECRET=ndI3wHthK8cymKQS55gPUSiW610
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"]
+      test: ["CMD", "lsof", "-t", "-i:2500"]
       interval: 30s
       timeout: 10s
       retries: 5
+
+  ngrok:
+    container_name: app_ngrok
+    build:
+      context: ./ngrok
+      dockerfile: Dockerfile
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "3001:4040"

@@ -1,25 +1,22 @@
-# ../script-limpa.sh
+#!/bin/bash
 
-echo "Parando os containeres"
+echo "Parando os containers"
 docker stop app_backend
+docker stop app_ngrok
 
-echo "Excluindo os containeres"
+echo "Excluindo os containers"
 docker rm -f app_backend
+docker rm -f app_ngrok
 
+echo "Excluindo as imagens do container"
+docker rmi -f image-app_backend:latest
+docker rmi -f galeria-de-fotos-back-node_ngrok:latest
 
-echo "Excluindo a imagem do container"
-docker rmi image-app_backend:latest
-
-echo "Listando todos as imagens"
+echo "Listando todas as imagens"
 docker images
 
 echo "Listando todos os containers"
 docker ps -a
 
 echo "Limpeza Concluída !!!"
-
-# echo "Buildando... ..."
-npm run build
-
-echo "Iniciando o Docker Compose"
-# docker-compose up -d --build
+docker-compose up -d --build

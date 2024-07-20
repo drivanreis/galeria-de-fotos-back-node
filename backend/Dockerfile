@@ -1,4 +1,4 @@
-# ../Dockerfile
+# backend/Dockerfile
 
 FROM node:16.14-alpine
 
@@ -18,8 +18,8 @@ COPY . .
 # Compilar o código TypeScript
 RUN npm run build
 
-# Expor a porta 3001
-EXPOSE 3001
+# Expor a porta 2500
+EXPOSE 2500
 
 # Comando de inicialização do contêiner
 CMD ["npm", "run", "start"]
